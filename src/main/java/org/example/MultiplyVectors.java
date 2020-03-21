@@ -1,5 +1,7 @@
 package org.example;
 
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
@@ -9,13 +11,15 @@ public class MultiplyVectors {
 
         int vectorSize = Integer.parseInt(args[0]);
         int numOfThreads = Integer.parseInt(args[1]);
+        //int vectorSize = 2;
+        //int numOfThreads = 800;
 
         if (numOfThreads > vectorSize)
             numOfThreads = vectorSize;
 
         Integer[] vector1 = setVector(vectorSize), vector2 = setVector(vectorSize);
         ThreadCalculator[] threadCalculators = new ThreadCalculator[numOfThreads];
-        Vector<Long> results = new Vector<>();
+        Vector<BigInteger> results = new Vector<>();
 
         int eachThreadJob = vectorSize / numOfThreads;
         int currIndex = 0;
@@ -28,7 +32,6 @@ public class MultiplyVectors {
             t.start();
 
         for (ThreadCalculator t : threadCalculators)
-        {
             try
             {
                 t.join();
@@ -36,13 +39,14 @@ public class MultiplyVectors {
             {
                 e.printStackTrace();
             }
-        }
 
-        Long sum = 0L;
-        for (Long result : results)
-            sum += result;
+        BigInteger sum = BigInteger.valueOf(0);
+        for (BigInteger result : results)
+            sum = sum.add(result);
 
-        System.out.println(sum);
+        System.out.println("vector 1 is: " + Arrays.toString(vector1));
+        System.out.println("vector 2 is: " + Arrays.toString(vector2));
+        System.out.println("Their product is: " + sum);
     }
 
     public static Integer[] setVector(int size) {

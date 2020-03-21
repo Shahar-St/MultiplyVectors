@@ -3,3 +3,5 @@
 /.idea
 /src/test/
 /MultiplyVectors.iml
+/src/main/java/org/example/MultiplyVectors.class
+/src/main/java/org/example/ThreadCalculator.class
