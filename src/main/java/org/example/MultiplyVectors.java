@@ -7,26 +7,34 @@ import java.util.Vector;
 
 public class MultiplyVectors {
 
+    static Integer[] vector1, vector2;
+    static Vector<BigInteger> results;
+
     public static void main(String[] args) {
 
         int vectorSize = Integer.parseInt(args[0]);
         int numOfThreads = Integer.parseInt(args[1]);
-        //int vectorSize = 2;
-        //int numOfThreads = 800;
+        //int vectorSize = 5;
+        //int numOfThreads = 2;
 
-        if (numOfThreads > vectorSize)
-            numOfThreads = vectorSize;
-
-        Integer[] vector1 = setVector(vectorSize), vector2 = setVector(vectorSize);
+        vector1 = setVector(vectorSize);
+        vector2 = setVector(vectorSize);
+        results = new Vector<>();
         ThreadCalculator[] threadCalculators = new ThreadCalculator[numOfThreads];
-        Vector<BigInteger> results = new Vector<>();
 
-        int eachThreadJob = vectorSize / numOfThreads;
-        int currIndex = 0;
-        for (int i = 0; i < numOfThreads - 1; ++i, currIndex += eachThreadJob)
-            threadCalculators[i] = new ThreadCalculator(vector1, vector2, results, currIndex, currIndex + eachThreadJob);
 
-        threadCalculators[numOfThreads - 1] = new ThreadCalculator(vector1, vector2, results, currIndex, vectorSize);
+        int eachThreadJob = Math.max(1, vectorSize / numOfThreads);
+        for (int i = 0, currIndex = 0; i < numOfThreads; ++i, currIndex += eachThreadJob)
+        {
+            if (i < vectorSize)
+                if (i < numOfThreads - 1)
+                    threadCalculators[i] = new ThreadCalculator(currIndex, currIndex + eachThreadJob);
+                else    // i is the last thread
+                    threadCalculators[numOfThreads - 1] = new ThreadCalculator(currIndex, vectorSize);
+            else
+                threadCalculators[i] = new ThreadCalculator();
+        }
+
 
         for (ThreadCalculator t : threadCalculators)
             t.start();
