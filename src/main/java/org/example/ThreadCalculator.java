@@ -19,7 +19,7 @@ public class ThreadCalculator extends Thread {
     }
     @Override
     public void run() {
-        if (isActive)
+        if (isActive)   // in case the num of threads exceeds the vector size, the remaining threads won't be active
         {
             BigInteger sum = BigInteger.valueOf(0);
             for (int i = startIndex; i < endIndex; ++i)

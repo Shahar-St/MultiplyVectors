@@ -2,8 +2,8 @@ package org.example;
 
 import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.Vector;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MultiplyVectors {
 
@@ -22,7 +22,6 @@ public class MultiplyVectors {
         results = new Vector<>();
         ThreadCalculator[] threadCalculators = new ThreadCalculator[numOfThreads];
 
-
         int eachThreadJob = Math.max(1, vectorSize / numOfThreads);
         for (int i = 0, currIndex = 0; i < numOfThreads; ++i, currIndex += eachThreadJob)
         {
@@ -34,7 +33,6 @@ public class MultiplyVectors {
             else    // extra threads (we have more than the vector size)
                 threadCalculators[i] = new ThreadCalculator();  // the number of threads exceeds the vector size
         }
-
 
         for (ThreadCalculator t : threadCalculators)
             t.start();
@@ -60,9 +58,8 @@ public class MultiplyVectors {
     public static Integer[] setVector(int size) {
         // the function get an Integer array, initialize it to size 'size' and fill it with random ints
         Integer[] vector = new Integer[size];
-        Random random = new Random();
         for (int i = 0; i < size; ++i)
-            vector[i] = random.nextInt();
+            vector[i] = ThreadLocalRandom.current().nextInt();
 
         return vector;
     }
