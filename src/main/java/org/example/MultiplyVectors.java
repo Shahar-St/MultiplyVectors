@@ -14,7 +14,7 @@ public class MultiplyVectors {
 
         int vectorSize = Integer.parseInt(args[0]);
         int numOfThreads = Integer.parseInt(args[1]);
-        //int vectorSize = 5;
+        //int vectorSize = 5;       // tests
         //int numOfThreads = 2;
 
         vector1 = setVector(vectorSize);
@@ -29,10 +29,10 @@ public class MultiplyVectors {
             if (i < vectorSize)
                 if (i < numOfThreads - 1)
                     threadCalculators[i] = new ThreadCalculator(currIndex, currIndex + eachThreadJob);
-                else    // i is the last thread
+                else    // i is the last thread we'll use
                     threadCalculators[numOfThreads - 1] = new ThreadCalculator(currIndex, vectorSize);
-            else
-                threadCalculators[i] = new ThreadCalculator();
+            else    // extra threads (we have more than the vector size)
+                threadCalculators[i] = new ThreadCalculator();  // the number of threads exceeds the vector size
         }
 
 
@@ -52,13 +52,13 @@ public class MultiplyVectors {
         for (BigInteger result : results)
             sum = sum.add(result);
 
-        System.out.println("vector 1 is: " + Arrays.toString(vector1));
-        System.out.println("vector 2 is: " + Arrays.toString(vector2));
+        System.out.println("vector 1: " + Arrays.toString(vector1));
+        System.out.println("vector 2: " + Arrays.toString(vector2));
         System.out.println("Their product is: " + sum);
     }
 
     public static Integer[] setVector(int size) {
-
+        // the function get an Integer array, initialize it to size 'size' and fill it with random ints
         Integer[] vector = new Integer[size];
         Random random = new Random();
         for (int i = 0; i < size; ++i)
