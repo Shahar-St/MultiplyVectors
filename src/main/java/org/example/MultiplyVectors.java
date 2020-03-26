@@ -14,8 +14,6 @@ public class MultiplyVectors {
 
         int vectorSize = Integer.parseInt(args[0]);
         int numOfThreads = Integer.parseInt(args[1]);
-        //int vectorSize = 5;       // tests
-        //int numOfThreads = 2;
 
         vector1 = setVector(vectorSize);
         vector2 = setVector(vectorSize);
